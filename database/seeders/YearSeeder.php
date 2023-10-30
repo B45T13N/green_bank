@@ -23,7 +23,7 @@ class YearSeeder extends Seeder
             ],
             [
                 'wording' => '1970-1980',
-                'grading' => 20,
+                'grading' => 30,
             ],
             [
                 'wording' => '1990-2000',

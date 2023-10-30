@@ -98,9 +98,3 @@
         }
     }
 </script>
-
-<style scoped>
-div.form-details{
-    width: 700px;
-}
-</style>
