@@ -18,23 +18,23 @@ class MileageSeeder extends Seeder
 
         $mileages = [
             [
-                'wording' => '5-10K/km',
+                'wording' => '5000-10 000 km par an',
                 'grading' => 90,
             ],
             [
-                'wording' => '10-15K/km',
+                'wording' => '10 000-15 000 km par an',
                 'grading' => 70,
             ],
             [
-                'wording' => '15-20K/km',
+                'wording' => '15 000-20 000 km par an',
                 'grading' => 50,
             ],
             [
-                'wording' => '20-25K/km',
+                'wording' => '20 000-25 000 km par an',
                 'grading' => 30,
             ],
             [
-                'wording' => '25-30K/km',
+                'wording' => '25 000-30 000 km par an',
                 'grading' => 10,
             ],
         ];
