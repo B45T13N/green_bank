@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Green Bank simulator</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-        <app-component></app-component>
     </div>
 </body>
 </html>
