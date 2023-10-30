@@ -1,0 +1,45 @@
+@import "variables.scss";
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url("./../fonts/Ubuntu-Regular.ttf");
+}
+
+html{
+    overflow: hidden !important;
+}
+
+div.v-application{
+    font-family: $body-font-family !important;
+    background: #EBEAEA;
+}
+
+button.validate-button{
+    background: $validate-btn-background;
+    color: $validate-btn-text-color;
+    width: 180px;
+
+    &--full-size{
+        background: $validate-btn-background;
+        color: $validate-btn-text-color;
+        width: auto;
+    }
+}
+
+button.invalidate-button{
+    background: $invalidate-btn-background;
+    color: $validate-btn-text-color;
+    width: 180px;
+}
+
+div.invalid{
+    div.v-field {
+        background: $invalid-select-background;
+    }
+}
+
+div.valid{
+    div.v-field {
+        background: $valid-select-background;
+    }
+}
