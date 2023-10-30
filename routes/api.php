@@ -7,7 +7,6 @@ use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\YearController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
