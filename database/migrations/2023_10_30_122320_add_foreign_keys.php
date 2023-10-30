@@ -55,7 +55,7 @@ return new class extends Migration
             $table->dropColumn('notation_id');
         });
 
-        Schema::table('mileage', function (Blueprint $table) {
+        Schema::table('mileages', function (Blueprint $table) {
             $table->dropForeign(['notation_id']);
             $table->dropColumn('notation_id');
         });
