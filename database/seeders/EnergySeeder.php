@@ -19,19 +19,19 @@ class EnergySeeder extends Seeder
         $energies = [
             [
                'name' => 'Gaz',
-                'grading' => 50,
-            ],
-            [
-                'name' => 'Diesel',
-                'grading' => 90,
-            ],
-            [
-                'name' => 'Essence',
                 'grading' => 60,
             ],
             [
-                'name' => 'Éléctrique',
+                'name' => 'Diesel',
                 'grading' => 40,
+            ],
+            [
+                'name' => 'Essence',
+                'grading' => 50,
+            ],
+            [
+                'name' => 'Éléctrique',
+                'grading' => 90,
             ],
             [
                 'name' => 'Hybride',
