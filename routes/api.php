@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\BorrowingRateController;
+use App\Http\Controllers\EnergyController;
+use App\Http\Controllers\MileageController;
+use App\Http\Controllers\PassengerController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\VehicleTypeController;
+use App\Http\Controllers\YearController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/energies', [EnergyController::class, 'index'])->name('energy.index');
+Route::get('/mileages', [MileageController::class, 'index'])->name('mileage.index');
+Route::get('/vehicleTypes', [VehicleTypeController::class, 'index'])->name('vehicleType.index');
+Route::get('/years', [YearController::class, 'index'])->name('year.index');
+Route::get('/borrowingRates', [BorrowingRateController::class, 'index'])->name('borrowingRates.index');
+Route::get('/passengers', [PassengerController::class, 'index'])->name('passenger.index');
+
+Route::post('/results', [ResultController::class, 'getResult'])->name('result.getResult');
+
+
