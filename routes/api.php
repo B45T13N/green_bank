@@ -7,6 +7,7 @@ use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\YearController;
+use App\Http\Middleware\ValidateGetResultRequestParameters;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::get('/years', [YearController::class, 'index'])->name('year.index');
 Route::get('/borrowingRates', [BorrowingRateController::class, 'index'])->name('borrowingRates.index');
 Route::get('/passengers', [PassengerController::class, 'index'])->name('passenger.index');
 
-Route::post('/results', [ResultController::class, 'getResult'])->name('result.getResult');
+Route::post('/results', [ResultController::class, 'submitResult'])->middleware(ValidateGetResultRequestParameters::class)->name('result.getResult');
+Route::get('/fetchResult/{id}', [ResultController::class, 'fetchResult'])->name('result.fetchResult');
 
 
