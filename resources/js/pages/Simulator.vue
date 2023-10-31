@@ -45,12 +45,12 @@
                     />
                 </v-form>
             </v-card-text>
-            <v-card-actions class="justify-space-around d-flex flex-sm-row flex-column mb-0 mb-sm-3">
+            <v-card-actions class="justify-space-around d-flex flex-sm-row flex-column-reverse mb-0 mb-sm-3">
                 <router-link to="/">
-                    <v-btn class="invalidate-button mb-3 mb-sm-0">Étape précédente</v-btn>
+                    <v-btn class="invalidate-button">Étape précédente</v-btn>
                 </router-link>
                 <router-link to="/result" v-if="validButtonIsShown">
-                    <v-btn class="validate-button">Étape suivante</v-btn>
+                    <v-btn class="validate-button mb-3 mb-sm-0">Étape suivante</v-btn>
                 </router-link>
             </v-card-actions>
         </v-card>
@@ -156,7 +156,7 @@
                     .then(response => {
                         let data = response.data.data;
                         data.map((item) => {
-                            this.passengers.push(item.count);
+                            this.passengers.push(item.wording);
                         })
                     })
                     .catch(error => {
