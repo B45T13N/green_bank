@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('passengers', function (Blueprint $table) {
             $table->id();
-            $table->integer('count')->nullable(false)->unique();
+            $table->string('wording')->nullable(false)->unique();
             $table->integer('bonus')->nullable(false);
             $table->timestamps();
         });
