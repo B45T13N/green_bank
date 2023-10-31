@@ -18,19 +18,19 @@ class YearSeeder extends Seeder
 
         $years = [
             [
-                'wording' => '1960-1970',
+                'wording' => 'Avant 1970',
                 'grading' => 10,
             ],
             [
-                'wording' => '1970-1980',
+                'wording' => 'Avant 1980',
                 'grading' => 30,
             ],
             [
-                'wording' => '1990-2000',
+                'wording' => 'Avant 2000',
                 'grading' => 40,
             ],
             [
-                'wording' => '2000-2010',
+                'wording' => 'Avant 2010',
                 'grading' => 50,
             ],
             [

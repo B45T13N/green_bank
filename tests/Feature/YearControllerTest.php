@@ -19,7 +19,7 @@ class YearControllerTest extends TestCase
             'data' => [
                 [
                     "id"=> 1,
-                    "wording"=> "1960-1970",
+                    "wording"=> "Avant 1970",
                 ]
             ]
         ]);
