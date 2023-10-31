@@ -11,7 +11,7 @@
             <v-card-text>
                 <v-form>
                     <SelectComponent label="Type de véhicule"
-                                     :items="vehicleType"
+                                     :items="vehicleTypes"
                                      :isShown="vehicleTypeSelectIsShown"
                                      selectType="vehicleType"
                                      @inputChange="handleVehicleTypeSelection"
@@ -63,13 +63,21 @@
     export default {
         name: 'SimulatorComponent',
         components: {SelectComponent},
+        beforeMount() {
+            this.getVehicleTypes();
+            this.getYears();
+            this.getMileages();
+            this.getEnergies();
+            this.getPassengers();
+        },
         data(){
             return {
-                passengers: ['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming'],
-                mileages: ['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming'],
-                energies: ['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming'],
-                years: ['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming'],
-                vehicleType: ['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming'],
+                apiURL: import.meta.env.VITE_API_URL,
+                passengers: [],
+                mileages: [],
+                energies: [],
+                years: [],
+                vehicleTypes: [],
 
                 vehicleTypeSelectIsShown: true,
                 yearSelectIsShown: false,
@@ -94,7 +102,67 @@
             },
             handlePassengerSelection(){
                 this.validButtonIsShown = true;
-            }
+            },
+            getVehicleTypes() {
+                axios.get(`${this.apiURL}/vehicleTypes`)
+                    .then(response => {
+                        let data = response.data.data;
+                        data.map((item) => {
+                            this.vehicleTypes.push(item.category);
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des types de véhicules :', error);
+                    });
+            },
+            getYears() {
+                axios.get(`${this.apiURL}/years`)
+                    .then(response => {
+                        let data = response.data.data;
+                        data.map((item) => {
+                            this.years.push(item.wording);
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des années :', error);
+                    });
+            },
+            getEnergies() {
+                axios.get(`${this.apiURL}/energies`)
+                    .then(response => {
+                        let data = response.data.data;
+                        data.map((item) => {
+                            this.energies.push(item.name);
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des énergies :', error);
+                    });
+            },
+            getMileages() {
+                axios.get(`${this.apiURL}/mileages`)
+                    .then(response => {
+                        let data = response.data.data;
+                        data.map((item) => {
+                            this.mileages.push(item.wording);
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des kilométrages :', error);
+                    });
+            },
+            getPassengers() {
+                axios.get(`${this.apiURL}/passengers`)
+                    .then(response => {
+                        let data = response.data.data;
+                        data.map((item) => {
+                            this.passengers.push(item.count);
+                        })
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des passagers :', error);
+                    });
+            },
         }
     }
 </script>
