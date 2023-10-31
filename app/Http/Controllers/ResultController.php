@@ -13,6 +13,7 @@ use App\Models\Passenger;
 use App\Models\Result;
 use App\Models\VehicleType;
 use App\Models\Year;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -73,7 +74,21 @@ class ResultController extends Controller
 
     public function fetchResult($id)
     {
-        $result = Result::query()->where('id', '=', $id)->first();
+        try
+        {
+            $result = Result::query()->where('id', '=', $id)->first();
+
+            if(!isset($result))
+            {
+                throw new ModelNotFoundException();
+            }
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return response()->json([
+                'message' => "Non existing result"
+            ], 400);
+        }
 
         return response()->json([
             'bonus' => $result->bonus,

@@ -146,4 +146,14 @@ class ResultControllerTest extends TestCase
                 "message"=> "The passenger field is required."
             ]);
     }
+
+    public function test_fetch_result_on_non_existing_result(): void
+    {
+        $response = $this->get('/api/fetchResult/1');
+
+        $response->assertStatus(400)
+            ->assertJson([
+                "message"=> "Non existing result"
+            ]);
+    }
 }

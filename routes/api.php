@@ -30,5 +30,3 @@ Route::get('/passengers', [PassengerController::class, 'index'])->name('passenge
 
 Route::post('/results', [ResultController::class, 'submitResult'])->middleware(ValidateGetResultRequestParameters::class)->name('result.getResult');
 Route::get('/fetchResult/{id}', [ResultController::class, 'fetchResult'])->name('result.fetchResult');
-
-
