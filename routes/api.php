@@ -29,4 +29,4 @@ Route::get('/borrowingRates', [BorrowingRateController::class, 'index'])->name('
 Route::get('/passengers', [PassengerController::class, 'index'])->name('passenger.index');
 
 Route::post('/results', [ResultController::class, 'submitResult'])->middleware(ValidateGetResultRequestParameters::class)->name('result.getResult');
-Route::get('/fetchResult/{id}', [ResultController::class, 'fetchResult'])->name('result.fetchResult');
+Route::get('/fetchResult/{guid}', [ResultController::class, 'fetchResult'])->name('result.fetchResult');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
+            $table->string('guid')->nullable(false);
             $table->string('vehicle_type')->nullable(false);
             $table->string('energy')->nullable(false);
             $table->string('mileage')->nullable(false);

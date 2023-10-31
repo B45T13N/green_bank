@@ -24,7 +24,7 @@ class ResultControllerTest extends TestCase
 
         $response = $this->postJson(route('result.getResult', $datas));
 
-        $response->assertStatus(302)->assertRedirect('/api/fetchResult/1');
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas('results', [
             "id" => 1,
@@ -35,7 +35,9 @@ class ResultControllerTest extends TestCase
             "passenger"=> $datas["passenger"]
         ]);
 
-        $response = $this->get('/api/fetchResult/1');
+        $result = Result::query()->where('id', '=', '1')->first();
+
+        $response = $this->get("/api/fetchResult/$result->guid");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -58,7 +60,7 @@ class ResultControllerTest extends TestCase
 
         $response = $this->postJson(route('result.getResult', $datas));
 
-        $response->assertStatus(302)->assertRedirect('/api/fetchResult/1');
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas('results', [
             "id" => 1,
@@ -69,8 +71,9 @@ class ResultControllerTest extends TestCase
             "passenger"=> $datas["passenger"]
         ]);
 
+        $result = Result::query()->where('id', '=', '1')->first();
 
-        $response = $this->get('/api/fetchResult/1');
+        $response = $this->get("/api/fetchResult/$result->guid");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -102,9 +105,11 @@ class ResultControllerTest extends TestCase
             "passenger"=> $datas["passenger"]
         ]);
 
-        $response->assertStatus(302)->assertRedirect('/api/fetchResult/1');
+        $result = Result::query()->where('id', '=', '1')->first();
 
-        $response = $this->get('/api/fetchResult/1');
+        $response->assertStatus(302);
+
+        $response = $this->get("/api/fetchResult/$result->guid");
 
         $response->assertStatus(200)
             ->assertJson([

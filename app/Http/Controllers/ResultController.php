@@ -15,6 +15,7 @@ use App\Models\VehicleType;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class ResultController extends Controller
@@ -46,6 +47,7 @@ class ResultController extends Controller
             $this->getBorrowingRate($bonus, $finalGrading, $borrowingRate, $finalBorrowingRate);
 
             $result = new Result();
+            $result->guid = Str::uuid();
             $result->vehicle_type = $validatedDatas['vehicleType'];
             $result->energy = $validatedDatas['energy'];
             $result->mileage = $validatedDatas['mileage'];
@@ -69,14 +71,14 @@ class ResultController extends Controller
             return response()->json(['messsage' => 'Error creating result'], 500);
         }
 
-        return redirect()->route('result.fetchResult', ['id' => $result->id]);
+        return redirect()->route('result.fetchResult', ['guid' => $result->guid]);
     }
 
-    public function fetchResult($id)
+    public function fetchResult($guid)
     {
         try
         {
-            $result = Result::query()->where('id', '=', $id)->first();
+            $result = Result::query()->where('guid', '=', $guid)->first();
 
             if(!isset($result))
             {
