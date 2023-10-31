@@ -6,24 +6,26 @@
             <v-card-title
                 class="mb-5"
             >
-                Selon votre simulation :
+                Voici le taux d'emprunt selon ces critères : {{ finalBorrowingRate }}  %.
             </v-card-title>
             <v-card-text class="ml-3">
                 <v-row class="mb-3">
-                    Vous souhaitez un véhicule {{ vehicleType }} {{ energy }} datant des années {{ year }}.
+                    Vous souhaitez une voiture de type {{ vehicleType.toLowerCase() }} {{ energy.toLowerCase() }} datant des années {{ year }}.
                 </v-row>
                 <v-row class="mb-3">
-                    Vous comptez rouler {{ mileage }} par an avec {{ passenger }}.
+                    Vous comptez rouler {{ mileage }}.
                 </v-row>
-                <v-row class="mb-3">Voici le taux d'emprunt selon ces critères : {{ finalBorrowingRate }}.</v-row>
-                <v-row class="mb-3">
-                    *Détail du calcul : {{ totalPoints }} / 40 soit un taux d'emprunt de {{ borrowingRate }} % avec {{ passenger }}
-                    (soit {{ passengerDetail }})
+                <v-row class="font-italic">
+                    *Détail du calcul : {{ finalGrading }} / 40 soit un taux d'emprunt de {{ borrowingRate }} % avec
+                    {{ passenger }} personnes dans le même foyer (soit {{ bonus }} %)
                 </v-row>
             </v-card-text>
-            <v-card-actions class="justify-end mb-3 mr-2">
+            <v-card-actions class="justify-space-around d-flex flex-sm-row flex-column mb-0 mb-sm-3">
+                <router-link to="/">
+                    <v-btn class="invalidate-button mb-3 mb-sm-0">Recommencer</v-btn>
+                </router-link>
                 <router-link to="#">
-                    <v-btn class="validate-button--full-size">Contactez-nous !</v-btn>
+                    <v-btn class="validate-button">Contactez-nous !</v-btn>
                 </router-link>
             </v-card-actions>
         </v-card>
@@ -34,6 +36,7 @@
     export default {
         data(){
             return {
+                apiURL: import.meta.env.VITE_API_URL,
                 vehicleType: '',
                 energy: '',
                 year: '',
@@ -41,12 +44,13 @@
                 passenger: '',
                 finalBorrowingRate: '',
                 borrowingRate: '',
-                totalPoints: '',
-                passengerDetail: '',
+                finalGrading: '',
+                bonus: '',
             }
         },
         beforeMount() {
             this.getLocalStorageInfo();
+            this.getResult();
         },
         methods: {
             getLocalStorageInfo(){
@@ -70,6 +74,26 @@
                 this.year = year
                 this.vehicleType = vehicleType
             },
+            getResult(){
+                axios.post(`${this.apiURL}/results`,
+                    {
+                        'vehicleType': this.vehicleType,
+                        'passenger': this.passenger,
+                        'energy': this.energy,
+                        'year': this.year,
+                        'mileage': this.mileage,
+                    })
+                    .then(response => {
+                        let data = response.data;
+                        this.bonus = data.bonus;
+                        this.borrowingRate = data.borrowingRate;
+                        this.finalBorrowingRate = data.finalBorrowingRate;
+                        this.finalGrading = data.finalGrading;
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des types de véhicules :', error);
+                    });
+            }
         }
     }
 </script>
