@@ -43,7 +43,9 @@
     export default {
         name: 'HomeComponent',
         components: {},
-
+        beforeMount() {
+            localStorage.clear();
+        },
         data(){
             return {
             }
