@@ -21,19 +21,19 @@ class PassengerSeeder extends Seeder
 
         $passengers = [
             [
-                'count' => 1,
+                'wording' => "1 passager",
                 'bonus' => 11,
             ],
             [
-                'count' => 2,
+                'wording' => "2 passagers",
                 'bonus' => -17,
             ],
             [
-                'count' => 3,
+                'wording' => "3 passagers",
                 'bonus' => -29,
             ],
             [
-                'count' => 4,
+                'wording' => "4 passagers ou plus",
                 'bonus' => -53,
             ],
         ];
@@ -41,7 +41,7 @@ class PassengerSeeder extends Seeder
         foreach ($passengers as $passenger)
         {
             Passenger::create([
-                'count' => $passenger['count'],
+                'wording' => $passenger['wording'],
                 'bonus' => $passenger['bonus'],
             ]);
         }

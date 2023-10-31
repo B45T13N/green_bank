@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\FieldTypeErrorException;
+use App\Exceptions\TooMuchParametersException;
 use App\Http\Resources\BorrowingRateResource;
 use App\Models\BorrowingRate;
 use App\Models\Energy;
 use App\Models\Grading;
 use App\Models\Mileage;
 use App\Models\Passenger;
+use App\Models\Result;
 use App\Models\VehicleType;
 use App\Models\Year;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ use Illuminate\Validation\ValidationException;
 
 class ResultController extends Controller
 {
-    function getResult(Request $request)
+    function submitResult(Request $request)
     {
         try
         {
@@ -25,7 +27,7 @@ class ResultController extends Controller
                 'energy' => 'string|required|exists:energies,name',
                 'mileage' => 'string|required|exists:mileages,wording',
                 'year' => 'string|required|exists:years,wording',
-                'passenger' => 'integer|required|exists:passengers,count'
+                'passenger' => 'string|required|exists:passengers,wording'
             ]);
 
             $finalGrading = 0;
@@ -35,10 +37,25 @@ class ResultController extends Controller
 
             foreach ($validatedDatas as $key => $data)
             {
-                $this->getNotation($key, $data, $finalGrading, $bonus);
+                $this->getFinalGrading($key, $data, $finalGrading, $bonus);
             }
 
-            $this->getBorrowingRate($bonus, $finalGrading/10, $borrowingRate, $finalBorrowingRate);
+            $finalGrading = $finalGrading/10;
+
+            $this->getBorrowingRate($bonus, $finalGrading, $borrowingRate, $finalBorrowingRate);
+
+            $result = new Result();
+            $result->vehicle_type = $validatedDatas['vehicleType'];
+            $result->energy = $validatedDatas['energy'];
+            $result->mileage = $validatedDatas['mileage'];
+            $result->year = $validatedDatas['year'];
+            $result->passenger = $validatedDatas['passenger'];
+            $result->bonus = $bonus/100;
+            $result->final_grading = $finalGrading;
+            $result->final_borrowing_rate = $finalBorrowingRate/100;
+            $result->borrowing_rate = $borrowingRate/100;
+
+            $result->save();
         }
         catch (ValidationException $e)
         {
@@ -46,16 +63,27 @@ class ResultController extends Controller
                 'message' => $e->getMessage(),
             ], 400);
         }
+        catch (\Exception $e)
+        {
+            return response()->json(['messsage' => 'Error creating result'], 500);
+        }
+
+        return redirect()->route('result.fetchResult', ['id' => $result->id]);
+    }
+
+    public function fetchResult($id)
+    {
+        $result = Result::query()->where('id', '=', $id)->first();
 
         return response()->json([
-            'bonus' => $bonus/100,
-            'finalGrading' => $finalGrading/10,
-            'finalBorrowingRate' => $finalBorrowingRate/100,
-            'borrowingRate' => $borrowingRate/100
+            'bonus' => $result->bonus,
+            'finalGrading' => $result->final_grading,
+            'finalBorrowingRate' => $result->final_borrowing_rate,
+            'borrowingRate' => $result->borrowing_rate
         ], 200);
     }
 
-    private function getNotation(string $fieldType, string|int $value, &$finalGrading, &$bonus)
+    private function getFinalGrading(string $fieldType, string|int $value, &$finalGrading, &$bonus)
     {
         switch ($fieldType)
         {
@@ -80,7 +108,7 @@ class ResultController extends Controller
                 $finalGrading += $year->grading;
                 break;
             case 'passenger':
-                $passenger = Passenger::query()->where('count', '=', $value)->first();
+                $passenger = Passenger::query()->where('wording', '=', $value)->first();
                 $bonus = $passenger->bonus;
                 break;
             default:

@@ -19,7 +19,7 @@ class PassengerControllerTest extends TestCase
             'data' => [
                 [
                     "id"=> 1,
-                    "count"=> 1,
+                    "wording"=> "1 passager",
                     "bonus"=> 11
                 ]
             ]

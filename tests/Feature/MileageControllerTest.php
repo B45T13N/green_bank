@@ -19,7 +19,7 @@ class MileageControllerTest extends TestCase
             'data' => [
                 [
                     "id"=> 1,
-                    "wording"=> "entre 5 000-10 000 km par an",
+                    "wording"=> "jusqu'à 10 000 km par an",
                 ]
             ]
         ]);

@@ -16,7 +16,7 @@ class PassengerResource extends JsonResource
     {
         $data = [
             'id' => $this->id,
-            'count' => $this->count,
+            'wording' => $this->wording,
             'bonus' => $this->bonus,
         ];
 
