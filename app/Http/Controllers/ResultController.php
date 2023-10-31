@@ -31,13 +31,14 @@ class ResultController extends Controller
             $finalGrading = 0;
             $bonus = 0;
             $borrowingRate = 1.85;
+            $finalBorrowingRate = 1.85;
 
             foreach ($validatedDatas as $key => $data)
             {
                 $this->getNotation($key, $data, $finalGrading, $bonus);
             }
 
-            $this->getBorrowingRate($bonus, $finalGrading/10, $borrowingRate);
+            $this->getBorrowingRate($bonus, $finalGrading/10, $borrowingRate, $finalBorrowingRate);
         }
         catch (ValidationException $e)
         {
@@ -49,6 +50,7 @@ class ResultController extends Controller
         return response()->json([
             'bonus' => $bonus/100,
             'finalGrading' => $finalGrading/10,
+            'finalBorrowingRate' => $finalBorrowingRate/100,
             'borrowingRate' => $borrowingRate/100
         ], 200);
     }
@@ -86,9 +88,10 @@ class ResultController extends Controller
         }
     }
 
-    private function getBorrowingRate(int $bonus, int $finalGrading, &$borrowingRate)
+    private function getBorrowingRate(int $bonus, int $finalGrading, &$borrowingRate, &$finalBorrowingRate)
     {
         $tmpBorrowingRate = BorrowingRate::query()->where('score', '>=', $finalGrading)->first();
-        $borrowingRate = $tmpBorrowingRate->rate + $bonus;
+        $borrowingRate = $tmpBorrowingRate->rate;
+        $finalBorrowingRate = $tmpBorrowingRate->rate + $bonus;
     }
 }

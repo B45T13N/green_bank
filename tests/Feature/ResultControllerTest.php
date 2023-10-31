@@ -16,7 +16,7 @@ class ResultControllerTest extends TestCase
         $response = $this->postJson(route('result.getResult',[
             "vehicleType"=>"Citadine",
             "energy"=>"Éléctrique",
-            "mileage"=>"de 25 000-30 000 km par an",
+            "mileage"=>"entre 25 000-30 000 km par an",
             "year"=>"2000-2010",
             "passenger"=>1
         ]));
@@ -25,7 +25,8 @@ class ResultControllerTest extends TestCase
             ->assertJson([
                 "bonus"=> 0.11,
                 "finalGrading"=> 23,
-                "borrowingRate"=> 2.63
+                "finalBorrowingRate"=> 2.63,
+                "borrowingRate"=> 2.52
             ]);
     }
 
@@ -34,7 +35,7 @@ class ResultControllerTest extends TestCase
         $response = $this->postJson(route('result.getResult',[
             "vehicleType"=>"Citadine",
             "energy"=>"Hybride",
-            "mileage"=>"de 5 000-10 000 km par an",
+            "mileage"=>"entre 5 000-10 000 km par an",
             "year"=>"Après 2010",
             "passenger"=>4
         ]));
@@ -43,7 +44,8 @@ class ResultControllerTest extends TestCase
             ->assertJson([
                 "bonus"=> -0.53,
                 "finalGrading"=> 31,
-                "borrowingRate"=> 1.57
+                "finalBorrowingRate"=> 1.57,
+                "borrowingRate"=> 2.1
             ]);
     }
 
@@ -52,7 +54,7 @@ class ResultControllerTest extends TestCase
         $response = $this->postJson(route('result.getResult',[
             "vehicleType"=>"Cabriolet",
             "energy"=>"Diesel",
-            "mileage"=>"de 10 000-15 000 km par an",
+            "mileage"=>"entre 10 000-15 000 km par an",
             "year"=>"1990-2000",
             "passenger"=>2
         ]));
@@ -61,7 +63,8 @@ class ResultControllerTest extends TestCase
             ->assertJson([
                 "bonus"=> -0.17,
                 "finalGrading"=> 21,
-                "borrowingRate"=> 2.35
+                "finalBorrowingRate"=> 2.35,
+                "borrowingRate"=> 2.52
             ]);
     }
 }
