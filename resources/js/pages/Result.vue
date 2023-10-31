@@ -1,6 +1,7 @@
 <template>
     <v-container class="h-75 w-100">
         <v-card
+            v-if="!loading"
             class="elevation-4 result"
         >
             <v-card-title
@@ -20,15 +21,20 @@
                     {{ passenger }} personnes dans le même foyer (soit {{ bonus }} %)
                 </v-row>
             </v-card-text>
-            <v-card-actions class="justify-space-around d-flex flex-sm-row flex-column mb-0 mb-sm-3">
+            <v-card-actions class="justify-space-around d-flex flex-sm-row flex-column-reverse mb-0 mb-sm-3">
                 <router-link to="/">
-                    <v-btn class="invalidate-button mb-3 mb-sm-0">Recommencer</v-btn>
+                    <v-btn class="invalidate-button">Recommencer</v-btn>
                 </router-link>
                 <router-link to="#">
-                    <v-btn class="validate-button">Contactez-nous !</v-btn>
+                    <v-btn class="validate-button mb-3 mb-sm-0">Contactez-nous !</v-btn>
                 </router-link>
             </v-card-actions>
         </v-card>
+        <v-progress-circular
+            v-else
+            indeterminate
+            color="green"
+        ></v-progress-circular>
     </v-container>
 </template>
 
@@ -46,6 +52,7 @@
                 borrowingRate: '',
                 finalGrading: '',
                 bonus: '',
+                loading: true,
             }
         },
         beforeMount() {
@@ -85,13 +92,14 @@
                     })
                     .then(response => {
                         let data = response.data;
-                        this.bonus = data.bonus;
+                        this.bonus = Math.round(data.bonus * 100) / 100;
                         this.borrowingRate = data.borrowingRate;
                         this.finalBorrowingRate = data.finalBorrowingRate;
                         this.finalGrading = data.finalGrading;
+                        this.loading = false;
                     })
                     .catch(error => {
-                        console.error('Erreur lors de la récupération des types de véhicules :', error);
+                        console.error('Erreur lors de la récupération du résultat :', error);
                     });
             }
         }
