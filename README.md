@@ -40,6 +40,146 @@ PHP ^8.1
 6. Lancer le serveur avec ``npm run dev``
 7. Des tests sont implémentés pour la partie back-end `php artisan test`
 
+## Fonctionnement global
+
+### API Rest endpoints
+
+#### Energies
+
+- **URL:** `/api/energies`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "name": "Gaz"
+        }, {...}
+    ]
+  }
+  ```
+
+#### Kilométrages
+
+- **URL:** `/api/mileages`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "wording": "jusqu'à 10 000 km par an"
+        }, {...}
+    ]
+  }
+  ```
+
+#### Passagers
+
+- **URL:** `/api/passagers`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "wording": "1 passager",
+            "bonus": 11
+        }, {...}
+    ]
+  }
+  ```
+
+#### Types de véhicule
+
+- **URL:** `/api/vehicleTypes`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "category" : "Citadine",
+            "weight" : "800-1300kg"
+        }, {...}
+    ]
+  }
+  ```
+
+#### Année de conception
+
+- **URL:** `/api/years`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "wording": "Avant 1970"
+        }, {...}
+    ]
+  }
+  ```
+
+#### Taux d'emprunt
+
+- **URL:** `/api/borrowingRates`
+- **Méthode:** GET
+- **Réponse :**
+  ```json
+  {
+    "data" : [
+        {
+            "id": 1,
+            "score": 10,
+            "rate": 300
+        }, {...}
+    ]
+  }
+  ```
+
+#### Envoi des données
+
+- **URL:** `/api/results`
+- **Méthode:** POST
+- **Requête :**
+  ```json
+  {
+    "vehicleType":"Cabriolet",
+    "energy":"Diesel",
+    "mileage":"jusqu'à 15 000 km par an",
+    "year":"Avant 2000",
+    "passenger":"2 passagers",
+    "inputAdded" :1
+  }
+  ```
+- **Réponse (302 REDIRECT to /api/fetchResult/{guid})**
+
+#### Récupération des résultats
+
+- **URL:** `/api/fetchResult/{guid}`
+- **Méthode:** GET
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "bonus": -0.17,
+    "finalGrading": 21,
+    "finalBorrowingRate": 2.35,
+    "borrowingRate": 2.52
+  }
+  ```
+- **Réponse (400 OK) :**
+  ```json
+  {
+    "message": "Non existing result"
+  }
+  ```
+
 ## Remerciements
 Merci à l'asynconf ainsi qu'à la Banque Populaire pour ce challenge qui était 
 intéressant à implémenter.
